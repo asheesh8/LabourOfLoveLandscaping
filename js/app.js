@@ -46,28 +46,15 @@ addEventListener('visibilitychange', () => {
 /* ============================================================
    THE GROUNDS — eight stops
    ============================================================ */
-const STOPS = [
-  { n:'The sign at the road',      x:112, y:104, img:'assets/photos/tourthegrounds.jpg',
-    t:'Hand-painted, and repainted: perennial flowers and bulbs, installation and maintenance — and, underneath, Kate Butler, handweaver, fine woollens and more. Two trades on one signpost.' },
-  { n:'The Greek Revival house',   x:348, y:150, img:'assets/photos/LabourOfLoveFooter.jpg',
-    t:'An 1800s Greek Revival, restored room by room. Inside: the antiques, craft and gift shop, and three guest rooms full of tropical plants that have no business being this far north.' },
-  { n:'The display gardens',       x:170, y:250, img:'assets/plants/aconitum-carmichaelii.jpeg',
-    t:'Not a sales yard — a garden. Alpine miniatures at your feet, background giants behind them, and the whole point being to show you what a Zone-3 border can actually look like in August.' },
-  { n:'The long border',           x:392, y:300, img:'assets/plants/aster-novi-angliae.jpeg',
-    t:'English cottage planting on one side, formal display on the other. The same plants, arranged two ways, so you can see which argument you find more persuasive.' },
-  { n:'The nursery rows',          x:668, y:152, img:'assets/plants/asclepias-tuberosa.jpeg',
-    t:'Field-grown or potted, your choice. Everything here was raised from seed or by division on this ground — which is why it survives the winter after you take it home.' },
-  { n:'The rock garden',           x:560, y:238, img:'assets/plants/arabis-albida.jpeg',
-    t:'Where the oddball stuff lives. Alpines, creepers, and a running experiment in what is genuinely not supposed to do well up here.' },
-  { n:'The picnic tables',         x:258, y:372, img:'assets/photos/tourthegrounds2.jpg',
-    t:'Among the flowers and along the water. Bring lunch, stay the afternoon; nobody will hurry you toward the till.' },
-  { n:"The river's edge",          x:520, y:392, img:'assets/photos/tourthegrounds2.jpg',
-    t:'The Barton River runs the length of the property. Moisture-lovers get the bank, and the sound of it carries right up into the gardens.' },
-];
+let STOPS = [];
 
 const svgNS = 'http://www.w3.org/2000/svg';
 const hostG = $('#hotspots');
-if (hostG) STOPS.forEach((s, i) => {
+
+function drawHotspots() {
+  if (!hostG) return;
+  hostG.innerHTML = '';
+  STOPS.forEach((s, i) => {
   const g = document.createElementNS(svgNS, 'g');
   g.setAttribute('class', 'hotspot');
   g.setAttribute('tabindex', '0');
@@ -79,16 +66,30 @@ if (hostG) STOPS.forEach((s, i) => {
      <text x="${s.x + 12}" y="${s.y + 3}">${String(i + 1).padStart(2, '0')} ${s.n}</text>`;
   const go = () => setStop(i);
   g.addEventListener('click', go);
-  g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
-  hostG.appendChild(g);
-});
+    g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    hostG.appendChild(g);
+  });
+}
+
+if (hostG) {
+  fetch('data/stops.json')
+    .then(r => r.json())
+    .then(rows => {
+      STOPS = rows;
+      $('#stopTotal') && ($('#stopTotal').textContent = String(rows.length).padStart(2, '0'));
+      drawHotspots();
+      wireTour();
+      setStop(0);
+    })
+    .catch(() => { $('#stopText').textContent = 'The tour could not be loaded.'; });
+}
 
 let stopI = 0, timer = null;
 const stopEls = { img:$('#stopImg'), title:$('#stopTitle'), text:$('#stopText'), kick:$('#stopKicker'), num:$('#stopNum') };
 const playBtn = $('#stopPlay');
 
 function setStop(i) {
-  if (!stopEls.title) return;
+  if (!stopEls.title || !STOPS.length) return;
   stopI = (i + STOPS.length) % STOPS.length;
   const s = STOPS[stopI];
   const card = $('.stopcard');
@@ -117,7 +118,7 @@ function stopAuto() {
   playBtn.setAttribute('aria-pressed', 'false');
   playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 4l14 8-14 8z"/></svg>';
 }
-if (hostG) {
+function wireTour() {
   $('.stopcard').style.transition = 'opacity .38s cubic-bezier(.16,1,.3,1)';
   $('#stopNext').addEventListener('click', () => { stopAuto(); setStop(stopI + 1); });
   $('#stopPrev').addEventListener('click', () => { stopAuto(); setStop(stopI - 1); });
@@ -127,7 +128,6 @@ if (hostG) {
     playBtn.setAttribute('aria-pressed', 'true');
     playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 4v16M17 4v16"/></svg>';
   });
-  setStop(0);
   const mapEl = $('.tour__map');
   if (mapEl) {
     if (reduced) mapEl.classList.add('is-drawn');

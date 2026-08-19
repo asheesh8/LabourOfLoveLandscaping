@@ -1,0 +1,74 @@
+[
+ {
+  "id": "s1",
+  "n": "The sign at the road",
+  "x": 112,
+  "y": 104,
+  "bed": 1,
+  "img": "assets/photos/tourthegrounds.jpg",
+  "t": "Hand-painted, and repainted: perennial flowers and bulbs, installation and maintenance — and, underneath, Kate Butler, handweaver, fine woollens and more. Two trades on one signpost."
+ },
+ {
+  "id": "s2",
+  "n": "The Greek Revival house",
+  "x": 348,
+  "y": 150,
+  "bed": 2,
+  "img": "assets/photos/LabourOfLoveFooter.jpg",
+  "t": "An 1800s Greek Revival, restored room by room. Inside: the antiques, craft and gift shop, and three guest rooms full of tropical plants that have no business being this far north."
+ },
+ {
+  "id": "s3",
+  "n": "The display gardens",
+  "x": 170,
+  "y": 250,
+  "bed": 3,
+  "img": "assets/plants/aconitum-carmichaelii.jpeg",
+  "t": "Not a sales yard — a garden. Alpine miniatures at your feet, background giants behind them, and the whole point being to show you what a Zone-3 border can actually look like in August."
+ },
+ {
+  "id": "s4",
+  "n": "The long border",
+  "x": 392,
+  "y": 300,
+  "bed": 4,
+  "img": "assets/plants/aster-novi-angliae.jpeg",
+  "t": "English cottage planting on one side, formal display on the other. The same plants, arranged two ways, so you can see which argument you find more persuasive."
+ },
+ {
+  "id": "s5",
+  "n": "The nursery rows",
+  "x": 668,
+  "y": 152,
+  "bed": 5,
+  "img": "assets/plants/asclepias-tuberosa.jpeg",
+  "t": "Field-grown or potted, your choice. Everything here was raised from seed or by division on this ground — which is why it survives the winter after you take it home."
+ },
+ {
+  "id": "s6",
+  "n": "The rock garden",
+  "x": 560,
+  "y": 238,
+  "bed": 6,
+  "img": "assets/plants/arabis-albida.jpeg",
+  "t": "Where the oddball stuff lives. Alpines, creepers, and a running experiment in what is genuinely not supposed to do well up here."
+ },
+ {
+  "id": "s7",
+  "n": "The picnic tables",
+  "x": 258,
+  "y": 372,
+  "bed": 7,
+  "img": "assets/photos/tourthegrounds2.jpg",
+  "t": "Among the flowers and along the water. Bring lunch, stay the afternoon; nobody will hurry you toward the till."
+ },
+ {
+  "id": "s8",
+  "n": "The river's edge",
+  "x": 520,
+  "y": 392,
+  "bed": 8,
+  "img": "assets/photos/tourthegrounds2.jpg",
+  "t": "The Barton River runs the length of the property. Moisture-lovers get the bank, and the sound of it carries right up into the gardens."
+ }
+]

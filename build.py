@@ -1,6 +1,51 @@
 #!/usr/bin/env python3
 """Composes the static pages from shared chrome + per-page content."""
-import os
+import os, json
+
+def load(name):
+    return json.load(open("data/%s.json" % name))
+
+def h(v):
+    """Escape for HTML. Data files hold plain text; escaping happens here."""
+    return (str(v).replace("&", "&amp;").replace("<", "&lt;")
+                  .replace(">", "&gt;").replace('"', "&quot;"))
+
+def hbr(v):
+    """Escape, then honour line breaks as <br>."""
+    return h(v).replace("\n", "<br>")
+
+DATA = {n: load(n) for n in ("stops", "rooms", "testimonials", "services", "settings")}
+SET = DATA["settings"]
+
+def rooms_html():
+    out = []
+    for r in DATA["rooms"]:
+        out.append(
+            '        <article class="room"><span class="room__n">%s</span><h2>%s</h2>\n'
+            '          <p>%s</p>\n'
+            '          <div class="room__meta"><span>%s</span><span>%s</span></div></article>'
+            % (h(r["numeral"]), h(r["name"]), h(r["desc"]), h(r["sleeps"]), h(r["beds"])))
+    return "\n".join(out)
+
+def services_html():
+    return "\n".join(
+        '        <article class="svc"><span class="svc__n">%s</span><h2>%s</h2><p>%s</p></article>'
+        % (h(v["n"]), h(v["name"]), h(v["desc"])) for v in DATA["services"])
+
+def quotes_html():
+    out = []
+    rows = DATA["testimonials"]
+    for i, t in enumerate(rows):
+        q, em = h(t["quote"]), h(t.get("emphasis", ""))
+        if em and em in q:
+            q = q.replace(em, "<em>%s</em>" % em, 1)
+        last = ' style="border-bottom:1px solid #33362A"' if i == len(rows) - 1 else ""
+        out.append(
+            '      <div class="quote" data-rise%s>\n'
+            '        <blockquote>“%s”</blockquote>\n'
+            '        <cite>%s<br>%s</cite>\n'
+            '      </div>' % (last, q, h(t["who"]), hbr(t["role"])))
+    return "\n".join(out)
 
 def sprig(name, variant, rate=None):
     """A cut stem laid into a section. `variant` sets which edge it enters from."""
@@ -56,7 +101,7 @@ def chrome(page, title, desc, body, cls="", extra=""):
 
 <nav class="navpanel" id="navPanel" data-open="false" aria-label="Mobile">
   {mnav}
-  <a class="btn btn--fill" href="tel:+18025256695">Call (802) 525-6695</a>
+  <a class="btn btn--fill" href="tel:{h(SET['phone_href'])}">Call {h(SET['phone'])}</a>
 </nav>
 
 <main id="top">
@@ -71,12 +116,12 @@ def chrome(page, title, desc, body, cls="", extra=""):
     </div>
     <div class="sitefoot__cols">
       <div><span class="sitefoot__h">Visit</span>
-        <a href="https://maps.google.com/?q=9+Sargent+Lane+Glover+VT+05839" target="_blank" rel="noopener">9 Sargent Lane (Route 16)<br>Glover, Vermont 05839</a></div>
+        <a href="https://maps.google.com/?q=9+Sargent+Lane+Glover+VT+05839" target="_blank" rel="noopener">{h(SET['street'])}<br>{h(SET['town'])}</a></div>
       <div><span class="sitefoot__h">Contact</span>
-        <a href="tel:+18025256695">(802) 525-6695</a><br>
-        <a href="mailto:kate@labouroflovelandscaping.com">kate@labouroflovelandscaping.com</a></div>
+        <a href="tel:{h(SET['phone_href'])}">{h(SET['phone'])}</a><br>
+        <a href="mailto:{h(SET['email'])}">{h(SET['email'])}</a></div>
       <div><span class="sitefoot__h">Hours</span>
-        Gardens open daily until dark<br>Shop evenings &amp; weekends</div>
+        {h(SET['hours_gardens'])}<br>Shop {h(SET['hours_shop'].lower())}</div>
     </div>
   </div>
   <div class="shell sitefoot__base"><span>© Labour of Love Landscaping &amp; Nursery</span><span>Glover, Vermont</span></div>
@@ -93,7 +138,7 @@ HOME = """
     <div class="hero__grid">
       <div class="hero__copy">
         <span class="eyebrow">Perennial flowers &amp; bulbs · Glover, Vermont</span>
-        <h1 class="display hero__title">Everything here has already survived a Glover winter.</h1>
+        <h1 class="display hero__title">""" + h(SET["hero_title"]) + """</h1>
         <p class="lede">A Zone-3 nursery in Vermont's Northeast Kingdom, where every plant is raised
         from seed or division by hand — and where the gardens, the river, the craft shop and three
         antique guest rooms are all open to you.</p>
@@ -358,7 +403,7 @@ TOUR = """
               <button class="icirc" id="stopPrev" aria-label="Previous stop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 18l-6-6 6-6"/></svg></button>
               <button class="icirc" id="stopNext" aria-label="Next stop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18l6-6-6-6"/></svg></button>
               <button class="icirc" id="stopPlay" aria-label="Play the tour" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 4l14 8-14 8z"/></svg></button>
-              <span class="stopnav__count"><span id="stopNum">01</span> / 08</span>
+              <span class="stopnav__count"><span id="stopNum">01</span> / <span id="stopTotal">08</span></span>
             </div>
           </div>
         </article>
@@ -411,14 +456,7 @@ SERVICES = """
   <section class="sec" style="padding-top:0">
     <div class="shell">
       <div class="svcs" data-rise>
-        <article class="svc"><span class="svc__n">01</span><h2>Garden design</h2><p>A succession of flowering worked out for your ground, your light, and your winter — alpine miniatures through to background giants.</p></article>
-        <article class="svc"><span class="svc__n">02</span><h2>Installation</h2><p>Field-grown or potted stock, planted by the people who raised it. Cottage-style or formal, whichever argument you found more persuasive.</p></article>
-        <article class="svc"><span class="svc__n">03</span><h2>Maintenance</h2><p>Ongoing care through the season, so the border in year three looks like the drawing from year one.</p></article>
-        <article class="svc"><span class="svc__n">04</span><h2>Site clearing</h2><p>Brambles, weed trees, and old foundations. Kate has coaxed gardens out of worse — ask about the barn foundation full of broken glass.</p></article>
-        <article class="svc"><span class="svc__n">05</span><h2>Stone work</h2><p>Walls, steps and edges built to sit right in a Vermont landscape and survive the frost heave.</p></article>
-        <article class="svc"><span class="svc__n">06</span><h2>Trees &amp; shrubs</h2><p>Planting, pruning, and removals — including the specimens that are not supposed to do well up here.</p></article>
-        <article class="svc"><span class="svc__n">07</span><h2>Pond work</h2><p>Water in the landscape, and the moisture-lovers that belong at its edge.</p></article>
-        <article class="svc"><span class="svc__n">08</span><h2>And more</h2><p>If it belongs in a Northeast Kingdom garden, it is worth a telephone call.</p></article>
+""" + services_html() + """
       </div>
       <div class="quote quote--light" data-rise style="margin-top:clamp(2.5rem,6vw,4rem)">
         <blockquote>“When I first saw the much neglected garden at the old farmhouse, my first thought was
@@ -446,20 +484,12 @@ STAY = """
   <section class="sec" style="padding-top:0">
     <div class="shell">
       <div class="rooms" data-rise>
-        <article class="room"><span class="room__n">I</span><h2>The Natural History Room</h2>
-          <p>One double bed among antiques and cabinets of nature collections — the room for the person who reads the labels.</p>
-          <div class="room__meta"><span>Sleeps 4</span><span>1 double</span></div></article>
-        <article class="room"><span class="room__n">II</span><h2>The Rose Room</h2>
-          <p>Two twin beds, a complete Art Deco furniture set, and roses worked through every detail of the décor.</p>
-          <div class="room__meta"><span>Sleeps 2</span><span>2 twins</span></div></article>
-        <article class="room"><span class="room__n">III</span><h2>The Chinese Wedding Room</h2>
-          <p>A 1940s waterfall double, a child's bed, and an Oriental rug — the warmest room in the house in October.</p>
-          <div class="room__meta"><span>Sleeps 3</span><span>1 double + child's</span></div></article>
+""" + rooms_html() + """
       </div>
 
       """ + sprig('hollyhock','r-low',0.10) + """
       <div class="amen" data-rise>
-        <div><span class="sitefoot__h">Rates</span><p>$75 per night, single or double occupancy.<br>$95 family rate. Year-round.</p></div>
+        <div><span class="sitefoot__h">Rates</span><p>""" + h(SET["rate_single"]) + """ per night, single or double occupancy.<br>""" + h(SET["rate_family"]) + """ family rate. Year-round.</p></div>
         <div><span class="sitefoot__h">In the house</span><p>Full kitchen · woodstove · fireplace pit · piano · library · TV/DVD · laundry · free WiFi · linens provided</p></div>
         <div><span class="sitefoot__h">On the land</span><p>Gardening · farm tours · fishing · leaf peeping · the gift &amp; craft shop · picnic tables at the river</p></div>
       </div>
@@ -481,31 +511,7 @@ TESTI = """
   </section>
   <section class="sec voices" style="margin-top:0">
     <div class="shell">
-      <div class="quote" data-rise>
-        <blockquote>“I swear you can see the fairies dance upon the petals of Kate's flowers.
-        <em>It's as if representatives of the entire plant kingdom have converged for a grand party.</em>
-        All the flora shimmers, and vibrates and compels us to live in ephemeral beauty of life.”</blockquote>
-        <cite>Dana Robinson<br>Singer &amp; songwriter</cite>
-      </div>
-      <div class="quote" data-rise>
-        <blockquote>“Kate Butler changed all that. Not immediately but over several years, coaxing us and
-        the land with a new garden. <em>Our visitors, who have their own gardens, always make a stop at
-        Labour of Love to take a few things home.</em> They are convinced that Kate's plants are better
-        than anything they can buy.”</blockquote>
-        <cite>Marian Burros<br>Writer &amp; client</cite>
-      </div>
-      <div class="quote" data-rise>
-        <blockquote>“Kate Butler, the cheerful proprietor, is one of those relentlessly creative people who
-        are full of surprises. She grows all her own plants from seed or division; she has a taste for the
-        unusual and oddball stuff — <em>she finds amusement in growing survivors that are ‘not supposed to
-        do well up here.'</em>”</blockquote>
-        <cite>Ruah Donnelly<br>The Adventurous Gardener:<br>Where to buy the best plants in New England</cite>
-      </div>
-      <div class="quote" data-rise style="border-bottom:1px solid #33362A">
-        <blockquote>“From what I've gathered on this site <em>you are the poster child for women being
-        successful in the landscaping world.</em>”</blockquote>
-        <cite>Nicholas White<br>Proprietor, White Gardens</cite>
-      </div>
+""" + quotes_html() + """
     </div>
   </section>
 """
@@ -524,14 +530,14 @@ VISIT = """
     <div class="shell">
       <div class="visit__grid" data-rise>
         <dl class="fact"><dt>Where</dt>
-          <dd><a href="https://maps.google.com/?q=9+Sargent+Lane+Glover+VT+05839" target="_blank" rel="noopener">9 Sargent Lane (Route&nbsp;16)<br>Glover, Vermont 05839</a></dd>
-          <dt>Telephone</dt><dd><a href="tel:+18025256695">(802) 525-6695</a></dd></dl>
+          <dd><a href="https://maps.google.com/?q=9+Sargent+Lane+Glover+VT+05839" target="_blank" rel="noopener">""" + h(SET["street"]).replace("Route 16","Route&nbsp;16") + """<br>""" + h(SET["town"]) + """</a></dd>
+          <dt>Telephone</dt><dd><a href="tel:""" + SET["phone_href"] + """">""" + SET["phone"] + """</a></dd></dl>
         <dl class="fact"><dt>Email</dt>
-          <dd><a href="mailto:kate@labouroflovelandscaping.com">kate@labouroflovelandscaping.com</a></dd>
-          <dt>Gardens</dt><dd>Open daily until dark</dd></dl>
+          <dd><a href="mailto:""" + SET["email"] + """">""" + SET["email"] + """</a></dd>
+          <dt>Gardens</dt><dd>""" + h(SET["hours_gardens"]) + """</dd></dl>
         <dl class="fact"><dt>Shop &amp; house</dt>
           <dd>Evenings and weekends<br><span style="color:var(--ink-faint)">other times by chance or appointment</span></dd>
-          <dt>Guest rooms</dt><dd>Year-round, by arrangement</dd></dl>
+          <dt>Guest rooms</dt><dd>""" + h(SET["hours_rooms"]) + """</dd></dl>
         <dl class="fact"><dt>Also here</dt>
           <dd>40 varieties of homemade jam<br>Handwoven woollens by Kate<br>Picnic tables at the river</dd></dl>
       </div>

@@ -1,0 +1,26 @@
+[
+ {
+  "id": "r1",
+  "numeral": "I",
+  "name": "The Natural History Room",
+  "desc": "One double bed among antiques and cabinets of nature collections — the room for the person who reads the labels.",
+  "sleeps": "Sleeps 4",
+  "beds": "1 double"
+ },
+ {
+  "id": "r2",
+  "numeral": "II",
+  "name": "The Rose Room",
+  "desc": "Two twin beds, a complete Art Deco furniture set, and roses worked through every detail of the décor.",
+  "sleeps": "Sleeps 2",
+  "beds": "2 twins"
+ },
+ {
+  "id": "r3",
+  "numeral": "III",
+  "name": "The Chinese Wedding Room",
+  "desc": "A 1940s waterfall double, a child's bed, and an Oriental rug — the warmest room in the house in October.",
+  "sleeps": "Sleeps 3",
+  "beds": "1 double + child's"
+ }
+]

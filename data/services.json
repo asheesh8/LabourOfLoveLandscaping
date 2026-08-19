@@ -1,0 +1,50 @@
+[
+ {
+  "id": "v1",
+  "n": "01",
+  "name": "Garden design",
+  "desc": "A succession of flowering worked out for your ground, your light, and your winter — alpine miniatures through to background giants."
+ },
+ {
+  "id": "v2",
+  "n": "02",
+  "name": "Installation",
+  "desc": "Field-grown or potted stock, planted by the people who raised it. Cottage-style or formal, whichever argument you found more persuasive."
+ },
+ {
+  "id": "v3",
+  "n": "03",
+  "name": "Maintenance",
+  "desc": "Ongoing care through the season, so the border in year three looks like the drawing from year one."
+ },
+ {
+  "id": "v4",
+  "n": "04",
+  "name": "Site clearing",
+  "desc": "Brambles, weed trees, and old foundations. Kate has coaxed gardens out of worse — ask about the barn foundation full of broken glass."
+ },
+ {
+  "id": "v5",
+  "n": "05",
+  "name": "Stone work",
+  "desc": "Walls, steps and edges built to sit right in a Vermont landscape and survive the frost heave."
+ },
+ {
+  "id": "v6",
+  "n": "06",
+  "name": "Trees & shrubs",
+  "desc": "Planting, pruning, and removals — including the specimens that are not supposed to do well up here."
+ },
+ {
+  "id": "v7",
+  "n": "07",
+  "name": "Pond work",
+  "desc": "Water in the landscape, and the moisture-lovers that belong at its edge."
+ },
+ {
+  "id": "v8",
+  "n": "08",
+  "name": "And more",
+  "desc": "If it belongs in a Northeast Kingdom garden, it is worth a telephone call."
+ }
+]

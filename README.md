@@ -6,6 +6,45 @@ Seven-page static site. Serve the folder:
 python3 -m http.server 4173
 ```
 
+## Admin
+
+`/admin.html` — Kate's side of the site. Add, edit, reorder and delete plants,
+tour stops, guest rooms, testimonials and services, plus hours, contact and rates.
+Excluded from search engines via `robots` meta.
+
+**Storage today is the browser.** `js/store.js` seeds from the JSON files in
+`/data` and keeps edits in `localStorage`, so changes are visible only in the
+browser that made them. The Publish panel downloads the updated JSON files to
+drop back into `/data`.
+
+**Swapping in Supabase** touches one file. `store.js` exposes a single interface
+(`all` / `save` / `remove` / `move` / `reset` / `snapshot` / `replace`) over a
+driver object. A commented `supabaseDriver` sketch sits next to the local one —
+fill it in, change `const DRIVER`, and nothing in `admin.js` changes.
+
+> Writes must go behind row-level security and an authenticated role before this
+> is reachable on a public URL. As shipped there is no auth: anyone who loads
+> `/admin.html` can edit their own local copy. That is harmless while storage is
+> per-browser, and becomes a real hole the moment it writes to a shared database.
+
+## Content lives in /data
+
+`build.py` reads `data/*.json` and generates the HTML, so the pages stay
+server-rendered and work without JS. The tour stops are additionally fetched at
+runtime by `js/app.js`, so the illustrated plan reflects edits without a rebuild.
+
+| File | Drives |
+|---|---|
+| `plants.json` | the 793-variety catalogue |
+| `stops.json` | the eight tour markers and their map positions |
+| `rooms.json` | the guest rooms on Stay |
+| `testimonials.json` | the quotes |
+| `services.json` | the landscaping list |
+| `settings.json` | hours, contact, rates, hero copy |
+
+These hold **plain text**. Escaping and line breaks are applied at render time,
+so Kate never has to type HTML.
+
 ## Pages
 
 | File | Page |
