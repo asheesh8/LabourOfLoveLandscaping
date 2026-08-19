@@ -1,0 +1,13 @@
+.DS_Store
+node_modules/
+
+# Skills tooling installed by `npx skills add`, not part of the site
+.agents/
+.claude/skills/
+skills-lock.json
+
+# Local preview config
+.claude/launch.json
+
+# PNG masters — the site serves the .webp beside them
+assets/generated/*.png

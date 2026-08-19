@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Labour of Love Landscaping &amp; Nursery — Glover, Vermont</title>
+<meta name="description" content="Over 700 varieties of Zone-3-hardy perennials grown from seed and division in Vermont's Northeast Kingdom. Display gardens, guided tours, a craft shop and three antique guest rooms.">
+<link rel="icon" href="assets/photos/LabourOfLoveicon.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Zilla+Slab:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add("js")</script>
+<link rel="stylesheet" href="css/style.css?v=1787100742">
+</head>
+<body class="home">
+
+<div class="rail" aria-hidden="true"><span>Glover, Vermont</span><span>·</span><span>Zone 3</span></div>
+
+<header class="mast" id="mast">
+  <button class="icirc mast__toggle" id="navToggle" aria-expanded="false" aria-controls="navPanel" aria-label="Open menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  </button>
+  <nav class="mast__nav" aria-label="Primary">
+    <a href="index.html" aria-current="page">Home</a>
+    <a href="tour.html">The Grounds</a>
+    <a href="plants.html">Plant Search</a>
+    <a href="services.html">Landscaping</a>
+    <a href="stay.html">Stay</a>
+    <a href="testimonials.html">Testimonials</a>
+    <a href="visit.html">Visit</a>
+  </nav>
+  <a class="btn btn--fill mast__cta" href="visit.html">Plan a visit</a>
+  <a class="mast__logo" href="index.html" aria-label="Labour of Love Landscaping and Nursery — home">
+    <img src="assets/generated/logo-mark.webp" alt="Labour of Love Landscaping and Nursery, Kate Butler, specializing in perennial flowers and bulbs, Route 16, Glover Village, Vermont" width="967" height="234">
+  </a>
+</header>
+
+<nav class="navpanel" id="navPanel" data-open="false" aria-label="Mobile">
+  <a href="index.html">Home</a>
+  <a href="tour.html">The Grounds</a>
+  <a href="plants.html">Plant Search</a>
+  <a href="services.html">Landscaping</a>
+  <a href="stay.html">Stay</a>
+  <a href="testimonials.html">Testimonials</a>
+  <a href="visit.html">Visit</a>
+  <a class="btn btn--fill" href="tel:+18025256695">Call (802) 525-6695</a>
+</nav>
+
+<main id="top">
+
+  <section class="hero shell">
+    <div class="hero__grid">
+      <div class="hero__copy">
+        <span class="eyebrow">Perennial flowers &amp; bulbs · Glover, Vermont</span>
+        <h1 class="display hero__title">Everything here has already survived a Glover winter.</h1>
+        <p class="lede">A Zone-3 nursery in Vermont's Northeast Kingdom, where every plant is raised
+        from seed or division by hand — and where the gardens, the river, the craft shop and three
+        antique guest rooms are all open to you.</p>
+        <div class="hero__meta">
+          <a class="btn btn--fill" href="tour.html">Walk the grounds</a>
+          <a class="btn" href="plants.html">Search 793 varieties</a>
+        </div>
+        <div class="hero__meta">
+          <span class="hero__stat"><b>793</b> varieties catalogued</span>
+          <span class="hero__stat"><b>Zone 3</b> hardy — Zone 2 is tundra</span>
+          <span class="hero__stat"><b>Daily</b> until dark</span>
+        </div>
+      </div>
+      <div class="hero__art">
+        <div class="hero__drift"><div class="hero__sway">
+          <img src="assets/generated/hero-plate.webp" alt="Botanical plate of Zone-3 perennials: monkshood, New England aster, butterfly weed, wild columbine, astilbe and hollyhock" fetchpriority="high">
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec season" id="succession">
+    <div class="shell">
+      <div class="sec__head" data-rise>
+        <div><span class="eyebrow">Interactive</span>
+        <h2 class="sec__title" style="margin-top:1rem">A breathtaking succession of flowering.</h2></div>
+        <p style="max-width:32ch;color:var(--ink-soft);font-size:.9375rem">The whole craft of a Zone-3
+        garden is sequence — something coming into bloom as something else goes over. Drag through the
+        season and see what is holding the garden up.</p>
+      </div>
+      <div class="season__stage" data-rise>
+        <div>
+          <div class="season__month" id="seasonMonth">May</div>
+          <p class="season__note" id="seasonNote"></p>
+          <div class="season__count"><b id="seasonCount">0</b> varieties carrying this month</div>
+          <div class="scrub">
+            <label for="seasonRange" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Month of the season</label>
+            <input type="range" id="seasonRange" min="0" max="5" value="0" step="1" aria-describedby="seasonNote">
+            <div class="scrub__ticks" id="seasonTicks"></div>
+          </div>
+        </div>
+        <div class="bloomgrid" id="bloomGrid" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="shell">
+      <div class="sec__head" data-rise>
+        <div><span class="eyebrow">What is here</span>
+        <h2 class="sec__title" style="margin-top:1rem">Four reasons people drive up here.</h2></div>
+      </div>
+      <div class="svcs" data-rise>
+        <a class="svc" href="tour.html"><span class="svc__n">01</span><h3>The grounds</h3><p>Display gardens, the river's edge, picnic tables among the flowers. Eight stops you can walk before you come.</p><span class="svc__go">Take the tour →</span></a>
+        <a class="svc" href="plants.html"><span class="svc__n">02</span><h3>The catalogue</h3><p>793 varieties, field-grown or potted, each described in Kate's own words. Search it by colour, light or habit.</p><span class="svc__go">Search plants →</span></a>
+        <a class="svc" href="services.html"><span class="svc__n">03</span><h3>Landscaping</h3><p>Design, installation and maintenance — site clearing, stone work, pruning, pond work.</p><span class="svc__go">See services →</span></a>
+        <a class="svc" href="stay.html"><span class="svc__n">04</span><h3>The guest rooms</h3><p>Three themed rooms in a restored 1800s Greek Revival, open year-round.</p><span class="svc__go">Stay the night →</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="background:var(--paper-warm)">
+    <div class="shell plate" data-rise>
+      <figure class="plate__fig">
+        <img src="assets/photos/LabourOfLoveHeader.jpg" alt="Hand-drawn, hand-coloured botanical engraving reading Labour of Love Landscaping and Nursery, Route 16, Glover Village, Vermont">
+        <figcaption>Pl. I — The house plate, drawn and coloured by hand.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+</main>
+
+<footer class="sitefoot">
+  <div class="shell sitefoot__in">
+    <div>
+      <div class="sitefoot__brand">Labour of Love</div>
+      <p class="sitefoot__blurb">Landscaping &amp; Nursery · Specializing in perennial flowers and bulbs, hardy to Zone 3.</p>
+    </div>
+    <div class="sitefoot__cols">
+      <div><span class="sitefoot__h">Visit</span>
+        <a href="https://maps.google.com/?q=9+Sargent+Lane+Glover+VT+05839" target="_blank" rel="noopener">9 Sargent Lane (Route 16)<br>Glover, Vermont 05839</a></div>
+      <div><span class="sitefoot__h">Contact</span>
+        <a href="tel:+18025256695">(802) 525-6695</a><br>
+        <a href="mailto:kate@labouroflovelandscaping.com">kate@labouroflovelandscaping.com</a></div>
+      <div><span class="sitefoot__h">Hours</span>
+        Gardens open daily until dark<br>Shop evenings &amp; weekends</div>
+    </div>
+  </div>
+  <div class="shell sitefoot__base"><span>© Labour of Love Landscaping &amp; Nursery</span><span>Glover, Vermont</span></div>
+</footer>
+
+<script src="js/app.js?v=1787100752"></script>
+<script src="js/hero-wind.js?v=1787100144"></script>
+</body>
+</html>
