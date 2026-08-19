@@ -163,7 +163,7 @@ p{ max-width:68ch; }
 @media (max-width:1180px){ .mast__nav{ display:none; } }
 
 /* ---------- Hero ---------- */
-.hero{ position:relative; padding-top:clamp(2rem,6vw,5rem); padding-bottom:clamp(3rem,7vw,6rem); }
+.hero{ position:relative; padding-top:clamp(2rem,6vw,5rem); padding-bottom:clamp(3rem,7vw,6rem); overflow-x:clip; }
 .hero__grid{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.02fr); gap:var(--gut); align-items:center; }
 @media (max-width:980px){ .hero__grid{ grid-template-columns:1fr; } }
 
@@ -176,17 +176,22 @@ p{ max-width:68ch; }
 .hero__art{
   position:relative; min-height:min(74vh,660px); display:grid; place-items:center end;
   margin-right:calc(var(--bleed) * -0.85);   /* let the plate run off the page edge */
-  overflow-x:clip;                           /* x only — the entrance rises vertically */
 }
 @media (max-width:980px){ .hero__art{ margin-right:0; place-items:center; } }
-.hero__art img{
-  width:100%; height:100%; object-fit:contain; max-height:min(78vh,700px);
-
+.hero__sway > img{
+  width:auto; max-width:120%; height:100%; object-fit:contain;
+  max-height:min(84vh,780px); object-position:right center;
+  will-change:transform;
+}
+@media (max-width:980px){
+  .hero__sway > img{ max-width:100%; width:100%; object-position:center; }
 }
 
 /* ---------- Section furniture ---------- */
-.sec{ padding-block:clamp(4.5rem,11vw,9rem); position:relative; }
-.sec__head{ display:flex; align-items:flex-end; justify-content:space-between; gap:var(--gut); margin-bottom:clamp(2.25rem,5vw,3.75rem); flex-wrap:wrap; }
+/* clip on x only — the stems intentionally run off the page edge, but must not
+   widen the document. overflow-y stays visible so lifted stems still show. */
+.sec{ padding-block:clamp(4.5rem,11vw,9rem); position:relative; overflow-x:clip; }
+.sec__head{ display:flex; align-items:flex-end; justify-content:space-between; gap:var(--gut); margin-bottom:clamp(2.25rem,5vw,3.75rem); flex-wrap:wrap; padding-top:1.5rem; }
 .sec__title{ font-size:clamp(1.9rem,4.2vw,3.3rem); line-height:1.06; max-width:17ch; text-wrap:balance; }
 .rule{ height:1px; background:var(--rule); border:0; margin:0; }
 
@@ -362,7 +367,7 @@ html.js [data-rise].rise-in{ opacity:1; }
 .mast__nav a[aria-current="page"]{ color:var(--ink); }
 .mast__nav a[aria-current="page"]::after{ transform:scaleX(1); }
 
-.pagehead{ padding-block:clamp(3rem,8vw,6.5rem) clamp(2rem,5vw,3.5rem); }
+.pagehead{ padding-block:clamp(3rem,8vw,6.5rem) clamp(2rem,5vw,3.5rem); overflow-x:clip; }
 .pagehead__title{ font-size:clamp(2.2rem,5.2vw,4.4rem); margin-block:1.2rem 1.4rem; max-width:17ch; text-wrap:balance; }
 .pagehead .lede{ max-width:46ch; }
 
@@ -442,10 +447,10 @@ html.js .reveal-ready.hero__copy > .hero__meta{ transition-delay:.54s; }
 html.js .reveal-ready.hero__copy > .hero__meta + .hero__meta{ transition-delay:.64s; }
 
 /* the plate: comes up out of focus and settles — blur, not just transform */
-html.js .hero__art img{
+html.js .hero__sway > img{
   opacity:0; transform:translateY(38px) scale(1.035); filter:blur(9px);
 }
-html.js .hero__art.reveal-ready img{
+html.js .hero__art.reveal-ready .hero__sway > img{
   opacity:1; transform:none; filter:blur(0);
   transition:opacity 1.5s cubic-bezier(.16,1,.3,1),
              transform 1.6s cubic-bezier(.16,1,.3,1),
@@ -473,7 +478,7 @@ html.js .hero__art.reveal-ready .hero__sway{ animation:sway 15s ease-in-out 1.5s
 @media (prefers-reduced-motion: reduce){
   html.js .wi{ transform:none; }
   html.js .hero__copy > *{ opacity:1 !important; transform:none !important; }
-  html.js .hero__art img{ opacity:1; transform:none; filter:none; }
+  html.js .hero__sway > img{ opacity:1; transform:none; filter:none; }
   html.js .hero__art.reveal-ready .hero__sway{ animation:none; }
 }
 
@@ -558,12 +563,12 @@ html.js .tour__map.is-drawn .draw:nth-of-type(2){ animation-delay:.25s; }
    entering from the RIGHT mirrors it for the same reason. */
 
 /* --- entering from the right (mirrored: cut end off-page right) --- */
-.sprig--r    { right:calc(var(--bleed) * -.42); top:-2.6rem;   --rot:-5deg; --flip:-1; }
-.sprig--r-low{ right:calc(var(--bleed) * -.34); bottom:-3rem;  --rot:7deg;  --flip:-1; }
+.sprig--r    { right:calc(var(--bleed) * -.42); top:-4.6rem;   --rot:-5deg; --flip:-1; --w:clamp(170px,20vw,300px); }
+.sprig--r-low{ right:calc(var(--bleed) * -.34); bottom:-3.4rem;--rot:7deg;  --flip:-1; --w:clamp(160px,18vw,280px); }
 
 /* --- entering from the left (as drawn) --- */
-.sprig--l    { left:calc(var(--bleed) * -.42);  top:-2.2rem;   --rot:4deg;  }
-.sprig--l-low{ left:calc(var(--bleed) * -.34);  bottom:-2.6rem;--rot:-6deg; }
+.sprig--l    { left:calc(var(--bleed) * -.52);  top:-6.2rem;   --rot:4deg;  --w:clamp(160px,18vw,275px); }
+.sprig--l-low{ left:calc(var(--bleed) * -.34);  bottom:-3rem;  --rot:-6deg; --w:clamp(160px,18vw,280px); }
 
 /* --- rising from the bottom --- */
 .sprig--rise { right:20%; bottom:calc(var(--bleed) * -1); --rot:-82deg; --w:clamp(150px,17vw,250px); }
@@ -609,4 +614,80 @@ html.js .sprig.is-in{
     opacity:.92; animation:none;
     transform:rotate(var(--rot,0deg)) scaleX(var(--flip,1));
   }
+}
+
+
+/* ============================================================
+   HERO POSY — companion stems arranged around the plate
+   Smaller, quieter and behind the main arrangement, angled inward
+   from each corner so the hero reads as a composition rather than
+   a single object floating in space.
+   ============================================================ */
+.hero__posy{ position:absolute; inset:0; pointer-events:none; z-index:0; }
+.hero__art > .hero__drift{ position:relative; z-index:1; }
+
+.hsprig{
+  position:absolute; width:var(--w,34%); height:auto;
+  opacity:0; filter:saturate(.86);
+  transform:rotate(var(--rot)) scaleX(var(--flip,1));
+  transform-origin:var(--org,left center);
+  will-change:transform;
+}
+
+/* Left of the plate. The plate fills its column, so these tuck into the corners
+   behind it rather than reaching left into the copy. */
+.hsprig--nw{ top:1%;    left:1%;  --w:28%; --rot:34deg;  }
+.hsprig--w { top:41%;   left:-3%; --w:24%; --rot:-8deg;  }
+.hsprig--sw{ bottom:1%; left:3%;  --w:30%; --rot:-32deg; }
+
+/* right of the plate — mirrored, flowers pointing back in */
+/* Right of the plate — nothing but page edge out there, so they may spill. */
+.hsprig--ne{ top:-1%;   right:-11%; --w:27%; --rot:-30deg; --flip:-1; --org:right center; }
+.hsprig--e { top:46%;   right:-16%; --w:23%; --rot:10deg;  --flip:-1; --org:right center; }
+.hsprig--se{ bottom:2%; right:-9%;  --w:29%; --rot:28deg;  --flip:-1; --org:right center; }
+
+html.js .hsprig{ transform:rotate(var(--rot)) scaleX(var(--flip,1)) translateY(-10px) scale(.97); }
+html.js .hero__art.reveal-ready .hsprig{
+  opacity:var(--o,.62);
+  transform:rotate(var(--rot)) scaleX(var(--flip,1)) translateY(0) scale(1);
+  transition:opacity 1.4s var(--ease), transform 1.6s var(--ease);
+}
+.hsprig--nw{ --o:.5;  transition-delay:.30s !important; }
+.hsprig--w { --o:.62; transition-delay:.46s !important; }
+.hsprig--sw{ --o:.58; transition-delay:.38s !important; }
+.hsprig--ne{ --o:.55; transition-delay:.52s !important; }
+.hsprig--e { --o:.6;  transition-delay:.60s !important; }
+.hsprig--se{ --o:.58; transition-delay:.44s !important; }
+
+/* each drifts on its own clock, none in step with the plate */
+@keyframes posy{
+  0%,100%{ transform:rotate(var(--rot)) scaleX(var(--flip,1)); }
+  50%    { transform:rotate(calc(var(--rot) + var(--sweep))) scaleX(var(--flip,1)); }
+}
+html.js .hero__art.reveal-ready .hsprig{
+  animation:posy var(--dur) ease-in-out var(--delay) infinite;
+}
+.hsprig--nw{ --sweep:1.6deg;  --dur:15s; --delay:2.0s; }
+.hsprig--w { --sweep:-2.1deg; --dur:19s; --delay:.9s;  }
+.hsprig--sw{ --sweep:1.3deg;  --dur:23s; --delay:3.1s; }
+.hsprig--ne{ --sweep:-1.8deg; --dur:17s; --delay:1.4s; }
+.hsprig--e { --sweep:2.2deg;  --dur:13s; --delay:2.6s; }
+.hsprig--se{ --sweep:-1.5deg; --dur:21s; --delay:.5s;  }
+
+/* narrow screens keep the four corners and drop the flanks */
+@media (max-width:980px){
+  .hsprig--w, .hsprig--e{ display:none; }
+  /* stacked layout: the copy sits directly above, so keep clear of its baseline */
+  .hsprig--nw{ left:2%;   top:6%;    --w:26%; }
+  .hsprig--sw{ left:1%;   bottom:2%; --w:28%; }
+  .hsprig--ne{ right:1%;  top:5%;    --w:25%; }
+  .hsprig--se{ right:0%;  bottom:3%; --w:27%; }
+}
+@media (max-width:560px){
+  .hsprig--nw, .hsprig--se{ display:none; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  html.js .hsprig{ animation:none; opacity:var(--o,.62);
+    transform:rotate(var(--rot)) scaleX(var(--flip,1)); }
 }

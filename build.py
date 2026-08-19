@@ -108,6 +108,14 @@ HOME = """
         </div>
       </div>
       <div class="hero__art">
+        <div class="hero__posy" aria-hidden="true">
+          <img class="hsprig hsprig--nw" src="assets/generated/sprigs/fern.webp" alt="" loading="lazy" decoding="async">
+          <img class="hsprig hsprig--w"  src="assets/generated/sprigs/columbine.webp" alt="" loading="lazy" decoding="async">
+          <img class="hsprig hsprig--sw" src="assets/generated/sprigs/aster.webp" alt="" loading="lazy" decoding="async">
+          <img class="hsprig hsprig--ne" src="assets/generated/sprigs/astilbe.webp" alt="" loading="lazy" decoding="async">
+          <img class="hsprig hsprig--e"  src="assets/generated/sprigs/monkshood.webp" alt="" loading="lazy" decoding="async">
+          <img class="hsprig hsprig--se" src="assets/generated/sprigs/butterflyweed.webp" alt="" loading="lazy" decoding="async">
+        </div>
         <div class="hero__drift"><div class="hero__sway">
           <img src="assets/generated/hero-plate.webp" alt="Botanical plate of Zone-3 perennials: monkshood, New England aster, butterfly weed, wild columbine, astilbe and hollyhock" fetchpriority="high">
         </div></div>
