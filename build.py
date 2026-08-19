@@ -159,9 +159,8 @@ HOME = """
 
   <section class="sec" style="background:var(--paper-warm)">
     <div class="shell plate" data-rise>
-      """ + sprig('butterflyweed','top',0.06) + """
       <figure class="plate__fig">
-        <img src="assets/photos/LabourOfLoveHeader.jpg" alt="Hand-drawn, hand-coloured botanical engraving reading Labour of Love Landscaping and Nursery, Route 16, Glover Village, Vermont">
+        <img src="assets/generated/logo-mark.webp" alt="Hand-drawn, hand-coloured botanical engraving reading Labour of Love Landscaping and Nursery, Kate Butler, specializing in perennial flowers and bulbs, Route 16, Glover Village, Vermont">
         <figcaption>Pl. I — The house plate, drawn and coloured by hand.</figcaption>
       </figure>
     </div>
