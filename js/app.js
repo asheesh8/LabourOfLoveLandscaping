@@ -332,3 +332,57 @@ function renderCat() {
     if (!ticking) { ticking = true; requestAnimationFrame(apply); }
   }, { passive: true });
 })();
+
+
+/* ============================================================
+   SPRIGS — depth on scroll
+   Each stem drifts at its own rate so the page reads in layers
+   rather than as one flat sheet.
+   ============================================================ */
+(() => {
+  const sprigs = $$('.sprig');
+  if (!sprigs.length) return;
+  if (reduced) { sprigs.forEach(el => el.classList.add('is-in')); return; }
+
+  // Reveal each stem on its own — page heads are not [data-rise] containers.
+  const reveal = new IntersectionObserver((entries, ob) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('is-in');
+      ob.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: .05 });
+  sprigs.forEach(el => reveal.observe(el));
+
+  const items = sprigs.map(el => ({
+    el,
+    rate: parseFloat(el.dataset.rate || (0.04 + Math.random() * 0.09)),
+    seen: false
+  }));
+
+  // Only compute for stems near the viewport.
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      const it = items.find(i => i.el === e.target);
+      if (it) it.seen = e.isIntersecting;
+    });
+  }, { rootMargin: '25% 0px' });
+  items.forEach(i => io.observe(i.el));
+
+  let ticking = false;
+  const apply = () => {
+    ticking = false;
+    const mid = innerHeight / 2;
+    items.forEach(it => {
+      if (!it.seen) return;
+      const r = it.el.getBoundingClientRect();
+      const offset = (r.top + r.height / 2 - mid) * it.rate;
+      // Drift rides on a wrapper property so it never fights the lean animation.
+      it.el.style.setProperty('--drift', offset.toFixed(1) + 'px');
+    });
+  };
+  addEventListener('scroll', () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(apply); }
+  }, { passive: true });
+  apply();
+})();

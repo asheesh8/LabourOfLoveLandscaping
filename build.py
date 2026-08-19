@@ -2,6 +2,12 @@
 """Composes the static pages from shared chrome + per-page content."""
 import os
 
+def sprig(name, variant, rate=None):
+    """A cut stem laid into a section. `variant` sets which edge it enters from."""
+    r = f' data-rate="{rate}"' if rate else ""
+    return (f'<img class="sprig sprig--{variant}" src="assets/generated/sprigs/{name}.webp"'
+            f' alt="" aria-hidden="true" loading="lazy" decoding="async"{r}>')
+
 def ver(path):
     """Cache-busting stamp so an updated asset is never served stale."""
     try: return "?v=%d" % int(os.path.getmtime(path))
@@ -112,6 +118,7 @@ HOME = """
   <section class="sec season" id="succession">
     <div class="shell">
       <div class="sec__head" data-rise>
+        """ + sprig('monkshood','l',0.07) + """""" + sprig('fern','r-low',0.12) + """
         <div><span class="eyebrow">Interactive</span>
         <h2 class="sec__title" style="margin-top:1rem">A breathtaking succession of flowering.</h2></div>
         <p style="max-width:32ch;color:var(--ink-soft);font-size:.9375rem">The whole craft of a Zone-3
@@ -137,6 +144,7 @@ HOME = """
   <section class="sec">
     <div class="shell">
       <div class="sec__head" data-rise>
+        """ + sprig('aster','r',0.05) + """""" + sprig('columbine','l-low',0.10) + """
         <div><span class="eyebrow">What is here</span>
         <h2 class="sec__title" style="margin-top:1rem">Four reasons people drive up here.</h2></div>
       </div>
@@ -151,6 +159,7 @@ HOME = """
 
   <section class="sec" style="background:var(--paper-warm)">
     <div class="shell plate" data-rise>
+      """ + sprig('butterflyweed','top',0.06) + """
       <figure class="plate__fig">
         <img src="assets/photos/LabourOfLoveHeader.jpg" alt="Hand-drawn, hand-coloured botanical engraving reading Labour of Love Landscaping and Nursery, Route 16, Glover Village, Vermont">
         <figcaption>Pl. I — The house plate, drawn and coloured by hand.</figcaption>
@@ -162,6 +171,7 @@ HOME = """
 # ---------------------------------------------------------------- TOUR
 TOUR = """
   <section class="pagehead shell">
+    """ + sprig('hollyhock','r',0.06) + """
     <span class="eyebrow">The tour</span>
     <h1 class="display pagehead__title">Eight stops between the road and the river.</h1>
     <p class="lede">Eight stops, from the hand-painted sign at the road to the picnic tables at the
@@ -346,6 +356,7 @@ TOUR = """
           </div>
         </article>
       </div>
+      """ + sprig('fern','l-low',0.11) + """
       <div class="nextup" data-rise>
         <a class="nextup__a" href="plants.html"><span>Next</span><b>Search the catalogue</b></a>
         <a class="nextup__a" href="stay.html"><span>Or</span><b>Stay the night</b></a>
@@ -357,6 +368,7 @@ TOUR = """
 # ---------------------------------------------------------------- PLANTS
 PLANTS = """
   <section class="pagehead shell">
+    """ + sprig('aster','l',0.08) + """
     <span class="eyebrow">The living catalogue</span>
     <h1 class="display pagehead__title">Every variety she grows.</h1>
     <p class="lede"><b id="catTotal">793</b> perennials, bulbs, shrubs and oddities — each described in
@@ -382,6 +394,7 @@ PLANTS = """
 # ---------------------------------------------------------------- SERVICES
 SERVICES = """
   <section class="pagehead shell">
+    """ + sprig('monkshood','r',0.05) + """
     <span class="eyebrow">The other half of the trade</span>
     <h1 class="display pagehead__title">Design, planting, stone and pond work.</h1>
     <p class="lede">Full-service design, installation and maintenance for commercial and residential
@@ -416,6 +429,7 @@ SERVICES = """
 # ---------------------------------------------------------------- STAY
 STAY = """
   <section class="pagehead shell">
+    """ + sprig('astilbe','l',0.09) + """
     <span class="eyebrow">Stay the night</span>
     <h1 class="display pagehead__title">Three rooms in an 1800s Greek Revival.</h1>
     <p class="lede">Filled with genuine antiques and botanical-garden-sized tropical plants. Open
@@ -436,6 +450,7 @@ STAY = """
           <div class="room__meta"><span>Sleeps 3</span><span>1 double + child's</span></div></article>
       </div>
 
+      """ + sprig('hollyhock','r-low',0.10) + """
       <div class="amen" data-rise>
         <div><span class="sitefoot__h">Rates</span><p>$75 per night, single or double occupancy.<br>$95 family rate. Year-round.</p></div>
         <div><span class="sitefoot__h">In the house</span><p>Full kitchen · woodstove · fireplace pit · piano · library · TV/DVD · laundry · free WiFi · linens provided</p></div>
@@ -453,6 +468,7 @@ STAY = """
 # ---------------------------------------------------------------- TESTIMONIALS
 TESTI = """
   <section class="pagehead shell">
+    """ + sprig('columbine','r',0.07) + """
     <span class="eyebrow">In other words</span>
     <h1 class="display pagehead__title">What people write about Kate.</h1>
   </section>
@@ -490,6 +506,7 @@ TESTI = """
 # ---------------------------------------------------------------- VISIT
 VISIT = """
   <section class="pagehead shell">
+    """ + sprig('butterflyweed','l',0.06) + """
     <span class="eyebrow">Visit</span>
     <h1 class="display pagehead__title">Open daily until dark.</h1>
     <p class="lede">Call ahead for group or guided tours, guest rooms, or weddings. The gift and craft
@@ -512,6 +529,7 @@ VISIT = """
           <dd>40 varieties of homemade jam<br>Handwoven woollens by Kate<br>Picnic tables at the river</dd></dl>
       </div>
 
+      """ + sprig('fern','rise',0.13) + """
       <div class="visitcta" data-rise>
         <a class="btn btn--fill" href="tel:+18025256695">Call the nursery</a>
         <a class="btn" href="mailto:kate@labouroflovelandscaping.com?subject=Guided%20tour%20enquiry">Book a guided tour</a>
