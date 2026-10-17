@@ -6,6 +6,8 @@ Seven-page static site. Serve the folder:
 python3 -m http.server 4173
 ```
 
+**Live:** https://labour-of-love-landscaping.vercel.app — static site on Vercel (no build command, no environment variables). Run `python3 build.py` after editing shared markup and commit the output.
+
 ## Admin
 
 `/admin.html` — Kate's side of the site. Add, edit, reorder and delete plants,
